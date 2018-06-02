@@ -9,7 +9,7 @@ class xsContentSpider(scrapy.Spider):
     name = 'xs_content'
 
     def start_requests(self):
-        f = open('/yjdata/www/xs/20180524_211850/xs.json',encoding = 'utf-8')
+        f = open('/yjdata/www/xs/database/menu.json',encoding = 'utf-8')
         content = json.load(f)
         start_urls = []
         for url in content:
@@ -18,7 +18,7 @@ class xsContentSpider(scrapy.Spider):
     def parse(self, response):
         items = ItemLoader(item=XsContentItem(),response=response)
         #章节标题
-        items.add_xpath('title','//*[@id="wrapper"]/div[4]/div/div[2]/h1/text()')
+        items.add_xpath('title','//*[@class="bookname"]/h1/text()')
         #正文
         items.add_xpath('text','//*[@id="content"]/text()')
         yield items.load_item()

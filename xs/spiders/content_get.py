@@ -14,7 +14,13 @@ class xsSpider(scrapy.Spider):
 
     def parse(self, response):
         count = 0
-        items = ItemLoader(item=XsItem(),response=response)
+        content = response.xpath("//*[@id='info']/h1")
+       # items = ItemLoader(item=XsItem(),response=response)
+        i = ItemLoader(item=XsItem(),selector=content)
+        #章节数
+        i.add_xpath('chapter','text()')
+        i.add_value('url','#')
+        yield i.load_item()
         for content in response.xpath('//*[@id="list"]/dl/dd/a'):
                 count = count+1
                 i = ItemLoader(item=XsItem(),selector=content)
